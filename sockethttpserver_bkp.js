@@ -17,11 +17,7 @@ net.createServer(function(sock) {
     //console.log('strData: '+strData);
     //console.log('First position: '+strsplitData[0]);
 
-    if (strData.startsWith('GET /drop HTTP/1.1')) {
-        console.log('Ending connection. No matching VDir for: '+strsplitData[0]);
-        sock.end();      
-    }
-    else{
+    if (strData.startsWith('GET / HTTP/1.1')) {
         console.log("Worked. Answering back a valid HTML from this requester: " + sock.remoteAddress);
         console.log("Received buffer: ");
         console.log(strData);
@@ -40,8 +36,11 @@ Content-Type: text/html; charset=utf-8
         response = response + '<b>You sent:</b><br>' + receivedData;
 
         sock.write(response);
-        sock.end();          
-
+        sock.end();        
+    }
+    else{
+        console.log('Ending connection. No matching VDir for: '+strsplitData[0]);
+        sock.end();
     }
     sock.end();
   });

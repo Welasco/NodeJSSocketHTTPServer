@@ -1,7 +1,8 @@
 var net = require('net');
 
 var HOST = '0.0.0.0';
-var PORT = 8080;
+//var PORT = 8080;
+var PORT = normalizePort(process.env.PORT || '3000');
 
 // Create a server instance, and chain the listen function to it
 // The function passed to net.createServer() becomes the event handler for the 'connection' event
@@ -52,4 +53,19 @@ Content-Type: text/html; charset=utf-8
 
 }).listen(PORT, HOST);
 
+function normalizePort(val) {
+    var port = parseInt(val, 10);
+  
+    if (isNaN(port)) {
+      // named pipe
+      return val;
+    }
+  
+    if (port >= 0) {
+      // port number
+      return port;
+    }
+  
+    return false;
+}
 console.log('Server listening on ' + HOST +':'+ PORT);

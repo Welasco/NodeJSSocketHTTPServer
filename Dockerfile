@@ -9,8 +9,7 @@ COPY startup /opt/startup
 RUN apt-get update \
     && apt-get install -y net-tools nano openssh-server vim curl wget tcptraceroute nscd tcpdump
 
-RUN npm install -g pm2 \
-    && mkdir -p /usr/src/app \
+RUN mkdir -p /usr/src/app \
     && echo "root:Docker!" | chpasswd \
     && echo "cd /usr/src/app" >> /etc/bash.bashrc \
     && cd /opt/startup \
@@ -31,11 +30,9 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
+EXPOSE 3000
 
-ENV PM2HOME /pm2home
-
-ENV PORT 8080
+ENV PORT 3000
 ENV WEBSITE_ROLE_INSTANCE_ID localRoleInstance
 ENV WEBSITE_INSTANCE_ID localInstance
 ENV PATH ${PATH}:/usr/src/app

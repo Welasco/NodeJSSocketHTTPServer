@@ -1,8 +1,10 @@
 var net = require('net');
+var os = require('os')
 
 var HOST = '0.0.0.0';
 //var PORT = 8080;
 var PORT = normalizePort(process.env.PORT || '3000');
+
 
 // Create a server instance, and chain the listen function to it
 // The function passed to net.createServer() becomes the event handler for the 'connection' event
@@ -20,16 +22,18 @@ net.createServer(function(sock) {
 
     if (strData.startsWith('GET /drop HTTP/1.1')) {
         console.log('Ending connection. No matching VDir for: '+strsplitData[0]);
-        sock.end();      
+        sock.end();
     }
     else{
         console.log("Worked. Answering back a valid HTML from this requester: " + sock.remoteAddress);
         console.log("Received buffer: ");
         console.log(strData);
+        var hostname = os.hostname();
+
         var response = `HTTP/1.1 200 OK
 Content-Type: text/html; charset=utf-8
 
-<html><body><h1>NodeJS UP and running :)</h1></body></html>
+<html><body><h1>NodeJS UP and running :)</h1></p><b>HostName:</b> ` + hostname + `</p></body></html>
 `;
         //response = response + 'You said:\n "' + data + '"';
         var receivedData = '';
@@ -41,7 +45,7 @@ Content-Type: text/html; charset=utf-8
         response = response + '<b>You sent:</b><br>' + receivedData;
 
         sock.write(response);
-        sock.end();          
+        sock.end();
 
     }
     sock.end();
@@ -55,17 +59,17 @@ Content-Type: text/html; charset=utf-8
 
 function normalizePort(val) {
     var port = parseInt(val, 10);
-  
+
     if (isNaN(port)) {
       // named pipe
       return val;
     }
-  
+
     if (port >= 0) {
       // port number
       return port;
     }
-  
+
     return false;
 }
 console.log('Server listening on ' + HOST +':'+ PORT);

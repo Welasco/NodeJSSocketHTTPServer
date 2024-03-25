@@ -4,7 +4,7 @@
     "description": "Express-driven static site hosted from default App Service wwwroot directory",
     "main": "default-static-site.js",
     "dependencies": {
-      "express": "4.15.3"
+      "express": "4.19.2"
     },
     "devDependencies": {},
     "scripts": {
